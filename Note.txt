@@ -1,0 +1,451 @@
+** Jan 12
+- wave
+transverse wave is what we used
+
+- s5
+entry of muller is complex
+entry of jones is real
+
+- s6
+in practice we cannot detect imaginary part
+we thus only care about real part (cos function)
+justifies why we use cos
+
+- s7
+phase
+kz is a pair
+wt is a pair (w is angular freq)
+
+info about t can help infer about w but nothing about kz
+
+(when take fourier transform of t we can get electro of w)
+
+- s8
+complex numbers
+cos is real term, sin is imaginary term
+
+- s9
+eulers
+abs (complex)
+|a e^{i\phi} | = \sqrt(~^2) = A
+
+A is amplitude, phi is phase
+
+E(z,t) = Re{~} just means the real part of the thing inside {}
+
+- s10
+complex conjugate
+ae^j\phi -> ae^-j\phi
+cos() + j sin() -> cos() - j sin()
+
+used to accelerate convolution (flip
+
+cross correlation (register two images taken at different time)
+
+- spectrum
+c = lambda * mu is constant
+large lambda gives small mu (speed)
+
+
+- fourier gaussian
+narrow gaussian to broad gaussian
+broad gaus to narrow gaus
+
+
+- s15
+
+  a pinhole aperture
+    ||                    |
+    ||                    |
+-------------             |
+    ||                    |
+    ||                    |
+this works like      intensity on screen
+rectangular func     follow distribution like F(w)
+
+similarlay, if pinhole is gaussian, the screen also shows gaussian
+
+
+- s18
+pinhole makes incoherent light spatially coherent
+filter makes temporal coherent
+
+- s19
+        _meter1_
+            ^
+            |
+            |       |
+laser ---> / ----> meter2
+           ||       |
+           vv
+      beam1 beam2
+
+point 3, phase (kz - wt - delta)
+for now ignore wt and delta then phase only depende on z
+which is distance between meter and `/`
+
+- s20
+skipped
+
+- s22
+\theta1 is diameter of the smallest circle in the right image
+
+** Jan 17
+first generation OCT, temporal domain
+
+
+- s3
+omega = 2 pi mu
+
+full wave half maximum (FWHW)
+
+
+c = lambda mu
+mu = c 1/lambda
+d mu = c / lambda^2 d lambda
+
+=> d mu = c d lambda / lambda_0^2
+
+- s4
+
+gaussian power spectrum
+temporal coherence function
+complex degree of tcf
+coherence time
+
+w-k theorem
+-> the temporal coherence function (Gamma(tao))
+ = fourier transform {gaussian function  / power spectrum density}
+
+S(omega) is the gaussian function
+gamma(tao) is the normalized fourier transformed gaussian
+
+(note sigma_omege measures width of gaussian and thus fourier transform
+ on gaussian has the property that narrow to broder and vice versa)
+
+                              |reference meter
+S(omega) -----     -----------|    -->
+              \___/           | move rm this direction
+              /   \___________
+                              |  |  |
+                              |  |  |
+                           signal meters
+
+when rm is close to sm, we get interference and can thus detect
+
+
+tao_c -> coherece time (match resolution of imaging system)
+
+
+- s5
+s(omega) gaussian power omega
+alpha/beta, alpha% signal goes up way...
+
+
+phase shift: presents in crossput
+(E'_R is throughput while E_R is crossput)
+
+
+E_R(t) = ...
+E_S(t + tao) = ... (electro field of sm) (these are complex numbers)
+
+E_R and E_S differ in time (since rm and sm may differ in distance)
+
+- s6
+I_det(tao) is the detected intensity at time tao
+
+R_R = r_R^2 (r_R electro field reflicity)
+
+|E_R+E_S|^2 = (E_R + E_S)*(E_R + E_S)^* (complex conjugate)
+
+  e^(i theta) + e^(i theta)^*
+= e^(i theta) + e^-(i theta)
+= 2cos theta
+= 2 Re{e^i theta} (real part)
+use this to simplify 
+
+Gamma(z) / I_0 = gamma(z)
+
+  Re{\gamma(tao)} = ... comes from s4
+= Re{exp(i w_0 tao) exp(...)}
+= cos(w_o tao) exp(-sigma_omega^2 tao^2 / 2)
+= cos(...) exp(- (2 \sqrt(2ln2) / tao_i)^2 * tao^2 / 2)
+= ...
+
+
+
+tao(t) = 2 [Z_R - Z_S] / c  ( Z_R is position of rm which change)
+                            ( Z_S sample position is fixed)
+       = 2 [v_Rt - Z_S] / c
+
+omega_0 tao = omega_0 2[v_Rt - Z_S]/c (signal bounce forth and back thus 2 times)
+            = 2 pi mu_0 2[v_Rt - Z_S] / [lambda_0 mu_0]
+            = 2 k_0 v_R t - 2k_0 Z_S (where k_0 = 2 pi / lambda_0)
+
+- s8
+dont care about DC, care about AC
+
+all equations based on assumption that source is gaussian
+
+delta z => axial resolution (mainly determined by bandwidth of source `delta lambda`)
+
+- s9
+Multiple sm
+
+auto-correlation: interference signal come from sample itself not from RM which is not what we want
+
+- s11
+
+~ left three figures
+RM match SM get signal
+take absolute
+(resolution depende on envelope of signal not freq)
+
+~
+broder spectrum, narrow gaussian -> high resolution
+
+** Jan 19
+- s3
+E(z,t) = A cos(kz - wt)
+time domain OCT relies on wt
+fourier domain OCT relies on kz (
+
+delta z0 is distance diff between sample and ref.
+This determines freq of sinusoidal func
+
+- s4
+ss: inside spectrum exists scanning device that decompose the the spectrum
+
+
+- s5
+
+- s6
+fix ref (no distance change), detect diff in spectral domain
+
+- s7
+
+E_R/E_S electrical field
+I_det interference want to observe
+
+sample arm: multiple field in side sample thus need to sum
+<>_t => detector detect signal within a time slot and average, thus no more time domain in fourier domain OCT equation
+DC doesnt contribute to inferference
+auto-correlation no reference involved
+
+- s8
+
+- s9
+before and after fourier transform
+power spectrum change to coherence function
+multiplication change to convolution
+
+- s11
+if broad power spectrum, get narrow coherence function
+which after convolving with ... contribute to narrow signal (figure)
+and thus have high resolution
+
+- s13
+bottom figure: white below sinusoidal (blue) is DC part
+               influence cleaniness 
+
+- s14
+artifacts happen when imaging high reflectivity sample
+
+autocorrelation happens when lights from different layers of the sample interfere with each other
+if we put ref further away from sample, we dont worry about this
+
+- s15
+however, if ref is too far, sensitivity is decreasing
+
+sampling property of signal causes decrease of signal strength (sensitivity)
+
+high freq sampling
+        ^
+        |
+small width pixel (narrow rectangular func) -- fourier --> wide sync function -> dynamic range of image large
+
+generally need high freq sampling (dataset however is big)
+
+- s16
+figure: peak in the middle: DC
+
+positive side is exactly the same with negative side
+if positive side is too close to DC, it may go over DC and overlap with negative side
+
+this only happens in fourier domain not time domian
+
+- s17
+** Jan 24
+- s6
+TD-oct: wave number (z <-> k)
+FD-oct: wavelength
+
+treat DC as constant
+simulation ignore autocorrelation
+
+- s7
+when have meter at sample:
+
+after increase DC, empty space below gaussian is DC part
+
+initial 50um and thus have signal at 50um
+as add DC, signal intensity get smaller
+
+thus, need to balance power between sample and reference arm
+
+- s10
+as we add more alpha to gaussian spectrum, we end up with less wave number
+
+- s11
+broad band: wide gaussian (need this to get better resolution)
+narrow band: narrow gaussian
+bandwidth influence resolution
+
+axial resolution: width of wavelength at half maximum
+as we increase alpha, input spectra getting narrow, after FFT, output gets
+broader and thus larger axial resolution
+
+- s13
+coherence imaging system: we care about phase (treat light as wave)
+incohere imaging system (con-focal microscopy): treat light as photon, cannot extrat wave info
+
+- s14
+by taking absolute value, we get amplitude
+by taking angle, we get phase info
+phase: [-pi,pi], hard to see trend as it goes down and up
+to see trend of phase, we do unwrapping
+
+- s15
+as distance between two arms increase (passlength difference), 
+  freq of input fringe increase => fft output has intensity at higher freq
+
+when there are multiple spectra, fft can resolve complex freq to simple intensity and thus can resolve multiple reflector
+
+- s18
+generally we place optics before sample arm and these will distort wave
+however reference arm doesnt need any which makes the two different.
+thus need to place something before ref arm as well to match
+
+- s20
+distorted frame: left part wave gets widers
+
+- s21
+2nd dispersion: fft still symmetric
+after fft, output gets really broad, hurting axial resolution (energy distributed in spatial dim)
+
+phase curve for 2nd order looks like 2nd order function
+
+- s23
+3rd dispersion: fft output not symmetric anymore
+
+phase curve for 3rd order looks like 3rd order function
+
+- s27
+for dispersion broading, same amount happened to all signal
+other issues that lead to broadening may not have this
+
+- s29
+fft pair z (fft domain) with k (wave number)
+thus sample wavelength and get k = 2*pi / lambda
+
+(if our sampled data is along wavenumber, data is linear, if we sample along wavelength nonlinear)
+
+FD-OCT acquire signal corresponding to wavelength, which may not map exactly to wavenumber we sample
+Before s29, everything is based on uniformly sampled k (linear k)
+
+1st issue of k-nonlinear sampling: shape change
+
+- s30
+2st issue: fft output is not symmetric and get broader
+
+- s32
+broadening effect caused by non-linear sampling is getting more severe at high freq
+while dispersion leads to same effects at all freqs
+
+** Jan 26
+- s35
+phase shift between the two is pi/2
+with a shift, signal is larger
+maximize sensitivity
+
+C = A + iB
+  = D e^(i pi)
+
+Real(C) = A, Imag(C) = B
+Abs(C) = D, Ang(C) = pi
+
+- s3
+
+- s4
+freq increase, signal away from DC
+
+
+- s5
+hilbert transform remove negative side (imaginary data) and increase amplitude of positive side.
+
+- s6
+
+- s7
+binary window fringe (calibration raw data)
+(similar to s14)
+
+- s8
+resample based on deviation of linear sample data from real freq
+phase should be linear after resampling
+
+k--fft-->z
+^
+lambda
+
+actual data is lambda domain, convert to k domain, dont know how
+thus use phase info to decide and sampling procedure is always non-linr
+
+- s9
+red is original power spectrm, bult is after it.
+
+- s10
+e.g. original 1024 sampling points, after fft, we end up with 512 points due to hilbert sampling.
+
+axial resolution derive from equations
+pixel resolution (two pixels apart, want to know distance between actual layers)
+e.g.
+
+Left figure
+DC is at origin?, as we go away from DC, sharpness decreased
+
+- s11
+move reference arm 250um each time and see how much depth index change each time (e.g. 36)
+then we know pixel resolution is 37?
+
+- s12
+two signals in left is same, mechanical issues cause shift
+
+- s14
+cplx_fft = (512,400)
+complex_fft_data = A(x,y) e^(i pi(x,y))
+cplx_fft_ref = cplx_fft(512,1)
+
+if freq is same, complex conjugate multiplication should be zero in most part
+not same here
+
+e.g. c1 = a1 e^(i pi1), c2 = a2 e^(i pi2) ...
+given three complex number, to measure phase diff (diff between pi1 pi2...)
+we do c1 c2* (c1 times complex conjugate of c2)
+and gets a1a2 e^(i (pi1-pi2))
+
+- s15
+after compensation, 
+
+
+
+- summary
+oct interparameter:
+  scanning device (FC, GS-X part)
+  reference arm interparameter
+  calibration interparameter
+
+to plot fringe data, use real operator
+
+choose one data as reference
+ then all processes
+
