@@ -10,18 +10,19 @@ function simulation_jan_26()
     % get complex data
     cplx_data = hilbert(raw_data);
 
-    for i = 1:12
-        subplot(3,4,i);plot(real(cplx_data(:,i)));xlim([0 1024]);ylim([1e4,5.5e4]);
-    end
+%     for i = 1:12
+%         subplot(3,4,i);plot(real(cplx_data(:,i)));xlim([0 1024]);ylim([1e4,5.5e4]);
+%     end
 
     % get fft data
     fft_data = fft(cplx_data);
-    for i = 1:12
-        subplot(3,4,i);plot(abs(fft_data(:,i)));xlim([0 512]);ylim([0,2e7]);
-    end
+%     for i = 1:12
+%         subplot(3,4,i);plot(abs(fft_data(:,i)));xlim([0 512]);ylim([0,2e7]);
+%     end
 
-    fft_data_ref = fft_data(:,1);
-
+    fft_data_ref = fft_data(:,3);
+    plot(abs(fft_data_ref));xlim([100 200]);hold on;
+    rectangle('position',[100 0 40 2e7]);
 
     % binary filter
     depth_roi = [20 60];
@@ -94,8 +95,8 @@ function simulation_jan_26()
 
 
     % *** plot all data ***
-    for k = 1:2
-        depth_roi = [20 60];
+    for k = 1:12
+        depth_roi = [20 + (k-1)*40 20 + k*40];
         win_func = zeros([size(fft_data(:,k),1) 1]);
         win_func(depth_roi(1) : depth_roi(2), 1) = 1;
         fft_data_cal = fft_data(:,k) .* win_func;
@@ -116,17 +117,23 @@ function simulation_jan_26()
         idx_linr_k = poly_fit(phase_linear); % non-linear sampling gives linear phase
 
         % resampling to make sure phase of sampled data is linear
-        [n, d] = size(cplx_data);
-        for i = 1:size(cplx_data,2)
-            cplx_data_rescaled(:,i) = ...
-                interp1( [1:n]', real(cplx_data(:,i)), idx_linr_k, 'spline') ...
-                + 1j .* interp1( [1:n]', imag(cplx_data(:,i)), idx_linr_k, 'spline' );
-        end
+        n = size(cplx_data,1);
+        cplx_data_rescaled(:,k) = ...
+            interp1( [1:n]', real(cplx_data(:,k)), idx_linr_k, 'spline') ...
+            + 1j .* interp1( [1:n]', imag(cplx_data(:,k)), idx_linr_k, 'spline' );
     
         % fft of linear data
-        fft_data_rescaled = fft(cplx_data_rescaled);
-        fft_data_rescaled_ref = fft_data_rescaled(:,1);
-        plot(abs(fft_data_rescaled_ref));hold on;
+        fft_data_rescaled(:,k) = fft(cplx_data_rescaled(:,k));
+    end
+
+    % original fft signals, s10 left figure
+    for i = 1:12
+        subplot(1,2,1);plot(abs(fft_data(:,i)),color='red');hold on;xlim([0 512]);ylim([0 2e7]);
+    end
+
+    % resampled fft signal, s10 right figure
+    for i = 1:12
+        subplot(1,2,2);plot(abs(fft_data_rescaled(:,i)),color='blue');hold on;xlim([0 512]);ylim([0 2e7]);
     end
 
 end
