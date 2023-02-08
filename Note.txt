@@ -449,3 +449,43 @@ to plot fringe data, use real operator
 choose one data as reference
  then all processes
 
+** Feb 7
+- s2
+1 wavelength sweeping -> 1 depth-scan
+200kHz -> 200,000 depth-scan
+A-scan: along the depth
+B-scan: X
+C-scan: Y
+
+500x500 scan: takes a little than 1 second
+
+DCP: dsipergent compensation block (cheap materials that have similar reflecting index as sensors for sample arms)
+
+Retina also differ among people which cause dispergent as well.
+Thus need to numerically correct.
+     ______ 
+    /      /
+   /______/
+   |      |
+   |      |
+   |______|
+
+reference index: 250 (
+used as reference to estimate dispergent instead of estimating dispergent for each 2D scan
+
+end up having 768 pixels (only half)
+
+- s6
+1536x500 is one tomograph image data
+and we have 500 frames of such image
+
+- s9
+
+- s10
+all data fit, no offset
+
+- s12
+no calibration needed, only need oct signal
+
+- s13
+
