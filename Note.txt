@@ -449,3 +449,33 @@ to plot fringe data, use real operator
 choose one data as reference
  then all processes
 
+** Feb 2
+site visit
+https://students.unimelb.edu.au/academic-skills/resources/report-writing/site-visit-reports 
+
+Questions
+What’s the name of the optical imaging system?
+What tissues or organs would the system be applied to?
+Typical diseases that can be diagnosed?
+Procedure: 
+
+How long does it take to get the resulting image?
+
+Summary
+
+
+Introduction
+The introduction of the report should set the context for the level of observation conducted on the site visit. Include the importance of what is being observed and what you can learn from those observations. This might be, for example, to address a problem or provide a solution in another location.
+
+Main body of report
+monitor the operation of an optical imaging system.
+
+Students will visit on sight of the multidisciplinary research environment of engineering and clinical studies. Multiple demonstration of optical imaging devices will be performed which will be summarized and reported by the students.
+
+Two different groups will be organized for students: One group will be assigned to optical
+microscopy system in an engineering laboratory and the other group will be assigned to clinical imaging trial in a clinic.
+
+Conclusion / Recommendations / Reflections
+In the final section, you should sum up the key findings from the site visit and comment on the implications of these findings, and you may also give recommendations if that is appropriate to the task.  If you are required to reflect on your experience, try and make connections between what you have observed at the site and what you have learned in your subject.
+
+References
