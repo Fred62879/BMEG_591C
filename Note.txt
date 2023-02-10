@@ -519,3 +519,7 @@ all data fit, no offset
 no calibration needed, only need oct signal
 
 - s13
+
+** Feb 9
+- summary
+estimate dispersion coefficient using reference only not using for loop
