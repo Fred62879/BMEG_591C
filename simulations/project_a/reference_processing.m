@@ -1,4 +1,4 @@
-function project_a
+function reference_processing()
     fn = '/media/fred/working_drive/2022W2/bmeg591c/simulations/data/RawOCT.mat';
     raw_data = load(fn);
     rawOCT = getfield(raw_data,'rawOCT');
@@ -37,18 +37,12 @@ function project_a
         abs(ref_fftData_rescaled(1:end/2,:)))))); colormap(gray);
 
     % phase compensation
-    % todo: figure out best depthIdx
     cplxConjX = ref_fftData_rescaled .* ...
         repmat( conj(ref_fftData_rescaled(:,1)), [1 size(ref_fftData_rescaled,2)] );
-    for i=1:10
-        subplot(1,10,i); plot(abs(cplxConjX(i,:)));
-    end
-    for i = 1:10
-        subplot(2,5,i); plot(angle(cplxConjX(i,:)));
-    end
-    subplot(1,2,2); plot(real(cal_RawData()));
 
-    depthIdx = 47;
+    plot(abs(cplxConjX(:,1:10))); xlim([ 10 100]) % find optimal depthIdx
+    depthIdx = 34;
+
     ref_fftData_1D = ref_fftData_rescaled(:,1);
     ref_rawData_PhaseComp = compPhaseShift(ref_fftData_1D, ref_fftData_rescaled, depthIdx);
     ref_fftData_PhaseComp = fft(ref_rawData_PhaseComp);
@@ -59,9 +53,9 @@ function project_a
          abs(ref_fftData_PhaseComp(1:end/2,:)))))); colormap(gray);
 
     % Fixed pattern noise (FPN) removal
-    ref_rawData_FPNSub = ref_rawData_rescaled...
-        - (repmat(median(real(ref_rawData_rescaled), 2), [1,size(ref_rawData_rescaled,2)]) ...
-           +1j .* repmat(median(imag(ref_rawData_rescaled), 2), [1, size(ref_rawData_rescaled, 2)]));
+    ref_rawData_FPNSub = ref_rawData_PhaseComp...
+        - (repmat(median(real(ref_rawData_PhaseComp), 2), [1,size(ref_rawData_PhaseComp,2)]) ...
+           +1j .* repmat(median(imag(ref_rawData_PhaseComp), 2), [1, size(ref_rawData_PhaseComp, 2)]));
     ref_fftData_FPNSub = fft(ref_rawData_FPNSub);
 
     subplot(1,2,1); imagesc( imadjust(mat2gray(20 .* log10(...
@@ -69,11 +63,23 @@ function project_a
     subplot(1,2,2); imagesc( imadjust(mat2gray(20 .* log10(...
          abs(ref_fftData_FPNSub(1:end/2,:)))))); colormap(gray);
 
+    % hanning windowing
+    ref_rawData_hanWin = ref_rawData_FPNSub ...
+        .* repmat(hann(size(ref_rawData_FPNSub,1)), [1 size(ref_rawData_FPNSub,2)]);
+    ref_fftData_hanWin = fft(ref_rawData_hanWin);
+
+    subplot(1,2,1); plot(real(ref_rawData_FPNSub));
+    subplot(1,2,2); plot(real(ref_rawData_hanWin));
+
+    subplot(1,2,1); imagesc( imadjust(mat2gray(20 .* log10(...
+         abs(ref_fftData_FPNSub(1:end/2,:)))))); colormap(gray);
+    subplot(1,2,2); imagesc( imadjust(mat2gray(20 .* log10(...
+         abs(ref_fftData_hanWin(1:end/2,:)))))); colormap(gray);
+
     % dispersion estimation
-    % TODO: visualize image to find depthROI
     maxDispOrders = 3;
     coeffRange = 10;
-    depthROI = [45,275];
+    depthROI = [45,275]; % guessed, removed dark region (use any image before)
 
     dispCoeffs = setDispCoeffs(ref_rawData_FPNSub, depthROI, maxDispOrders, coeffRange);
     ref_rawData_dispComp = compDisPhase(ref_rawData_FPNSub, maxDispOrders, dispCoeffs);
@@ -83,12 +89,4 @@ function project_a
          abs(ref_fftData(1:end/2,:)))))); colormap(gray);hold on;
     subplot(1,2,2); imagesc( imadjust(mat2gray(20 .* log10(...
          abs(ref_fftData_dispComp(1:end/2,:)))))); colormap(gray);
-
-    % function volume_processing(rawOCT)
-    %     for frame_num = 1:size(rawOCT, 3)
-    %         raw_data = rawOCT(:,:,frame_num);
-
-    %         procd_data(:,:,frame_num) = FFTData(1:size(raw_data, 1)/2,:);
-    %     end
-    % end
 end

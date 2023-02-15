@@ -523,3 +523,26 @@ no calibration needed, only need oct signal
 ** Feb 9
 - summary
 estimate dispersion coefficient using reference only not using for loop
+** Feb 14
+- s20
+cross correlation: large -> similar (small motion)
+
+- s24
+
+  slow scan
+   / 
+  /_____ fast scan
+
+
+B scan along fast scan shows very bumpy image
+
+- s25 s26
+as we apply the tile correction, surface image (s26) is not smooth
+
+ROI depth: dark region can be removed, keep only retina image, this depth is determined
+
+
+- imageJ
+tiff file
+z project (two frames)
+3D:volume viewer
