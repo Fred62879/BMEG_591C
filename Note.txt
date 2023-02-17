@@ -546,3 +546,17 @@ ROI depth: dark region can be removed, keep only retina image, this depth is det
 tiff file
 z project (two frames)
 3D:volume viewer
+
+
+- fpn
+raw_data = real + j Imag
+to remove fpn
+convert raw_data to
+median(real) + j median(Imag)
+
+and then subtract this converted data from raw data
+
+- hanning window
+side lope coes from envelope
+after hanning window, data has gaussian shape and no more side lope
+
