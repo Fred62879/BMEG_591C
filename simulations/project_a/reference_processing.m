@@ -1,9 +1,20 @@
-function = reference_processing()
+function reference_processing()
     fn = '/media/fred/working_drive/2022W2/bmeg591c/simulations/data/RawOCT.mat';
     raw_data = load(fn);
     rawOCT = getfield(raw_data,'rawOCT');
 
     ref_rawData = rawOCT(:,:,250);
+    ref_fftData = fft(ref_rawData);
+    ref_hilData = hilbert(ref_rawData);
+    ref_fhilData = fft(ref_hilData);
+
+    subplot(1,6,1); plot(ref_rawData(:,:));
+    subplot(1,6,2); plot(ref_rawData(:,1));
+    subplot(1,6,3); plot(abs(ref_fftData(:,:))); ylim([0 4e6]);
+    subplot(1,6,4); plot(abs(ref_hilData(:,1)));
+    subplot(1,6,5); plot(imag(ref_hilData(:,1)));
+    subplot(1,6,6); plot(abs(ref_fhilData(:,1))); ylim([0 4e6]);
+
     ref_fftData = fft(hilbert(ref_rawData));
 
 %     subplot(1,2,1); plot(abs(ref_fftData(1:end/2,:))); ylim([0 4e6]);
@@ -77,7 +88,7 @@ function = reference_processing()
 %          abs(ref_fftData_hanWin(1:end/2,:)))))); colormap(gray);
 
     % dispersion estimation
-    maxDispOrders = 3;
+    maxDispOrders = 5;
     coeffRange = 10;
     depthROI = [40,300]; % guessed, removed dark region (use any image before)
 

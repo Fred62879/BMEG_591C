@@ -100,8 +100,6 @@ function volume_processing()
          a(:,:,2))))); colormap(gray);
 
     %
-    
-
     writematrix(procd_data(:), '../tmp.mat');
     shape = size(procd_data);
     a=readmatrix('../tmp');

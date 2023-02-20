@@ -1,4 +1,4 @@
-function OCT_mcorr = motion_correction(OCT_Data)
+function [axialShift, OCT_mcorr] = motion_correction(OCT_Data)
     % Depth_ROI = [A B];
     Depth_ROI = [1 260];
     numFrames = size(OCT_Data, 3);
