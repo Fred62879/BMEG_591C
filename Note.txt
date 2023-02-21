@@ -560,3 +560,10 @@ and then subtract this converted data from raw data
 side lope coes from envelope
 after hanning window, data has gaussian shape and no more side lope
 
+
+** Supplement
+*** Types of scanes
+In OCT many one-dimensional scans (a-scans) are performed at several depths
+to create a two-dimensional image (b-scan). Those b-scans, if acquired closely
+and rapidly, can be translated into a volumetric image (c-scan) of a retina,
+for example. 
