@@ -1,8 +1,8 @@
 function volume_correction()
     % load
-    fn = '/media/fred/working_drive/2022W2/bmeg591c/simulations/data/procd_data.mat';
-    procd_data = load(fn);
-    procd_OCT_ROI = getfield(procd_data,'procd_data');
+%     fn = '/media/fred/working_drive/2022W2/bmeg591c/simulations/data/procd_data.mat';
+%     procd_data = load(fn);
+%     procd_OCT_ROI = getfield(procd_data,'procd_data');
 
     % or run on the fly
     procd_OCT_ROI = procd_data(:,:,:);
@@ -29,7 +29,6 @@ function volume_correction()
 
     % apply the fitted tilt estimation
     axialshift = tilt_estimation(procd_OCT_ROI_mcorr);
-    plot(axialshift);
 
     % fit a curve to the axialshift curve
     x = [1:numLines]';
@@ -43,33 +42,11 @@ function volume_correction()
     % tilt correction
     procd_OCT_ROI_tcorr = tilt_correction(procd_OCT_ROI_mcorr, y1);
 
-    subplot(1,2,1); imagesc( imadjust(mat2gray(20 .* log10( ...
-            abs(squeeze(procd_OCT_ROI_mcorr(:,:,5))))))) ; colormap(gray);
-    subplot(1,2,2); imagesc( imadjust(mat2gray(20 .* log10( ...
-            abs(squeeze(procd_OCT_ROI_tcorr(:,:,5))))))) ; colormap(gray);
-
     % fast and slow scan direction
     subplot(1,2,1); imagesc( imadjust(mat2gray(20 .* log10( ...
             abs(squeeze(procd_OCT_ROI_tcorr(:,:,1))))))) ; colormap(gray); title('Fast Scan Direction'); axis xy;
     subplot(1,2,2); imagesc( imadjust(mat2gray(20 .* log10( ...
             abs(squeeze(procd_OCT_ROI_tcorr(:,1,:))))))) ; colormap(gray); title('Slow Scan Direction'); axis xy;
-
-    % en face image
-    frames = [50 60 70 80 90 100 110 120 160 200 250];
-    frames = 110:1:120;
-    n = size(frames,2);
-    for i=1:n
-        frame = frames(1,i);
-        subplot(1,n,i); imagesc( imadjust(mat2gray(20 .* log10( ...
-            abs(squeeze(procd_OCT_ROI_tcorr(frame,:,:))))))) ; colormap(gray); title('en face'); axis xy;
-    end
-
-    % save locally as matrix
-    fname = '../mcorr.mat';
-    save(fname,'procd_OCT_ROI_mcorr');
-
-    fname = '../tcorr.mat';
-    save(fname,'procd_OCT_ROI_tcorr');
 
     % save locally as tiff
     scaled = imadjust(mat2gray(20 .* log10(abs(squeeze(procd_OCT_ROI_tcorr(1,:,:))))));
