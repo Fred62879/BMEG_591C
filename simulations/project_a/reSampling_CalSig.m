@@ -22,4 +22,11 @@ function rawData_rescaled = reSampling_CalSig(fftData, cal_RawData)
             [1:size(rawData_real,1)]', rawData_real(:,i), idx_linK,'spline'))...
             + 1j.*(interp1([1:size(rawData_imag,1)]',rawData_imag(:,i),idx_linK,'spline'));
     end
+
+    % visualization
+    
+
+    a=interp1([1:size(rawData_real,1)]', rawData_real(:,1), idx_linK,'spline');
+    subplot(1,2,1); plot(idx, rawData_real(:,1)); 
+    subplot(1,2,2); plot(idx_linK, a);
 end

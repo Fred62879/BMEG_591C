@@ -1,5 +1,7 @@
 function reference_processing()
-    fn = '/media/fred/working_drive/2022W2/bmeg591c/simulations/data/RawOCT.mat';
+    
+    fn = '/media/fred/working_drive/2022W2/bmeg591c/simulations/data/project_a/RawOCT.mat';
+    %fn = 'RawOCT.mat';
     raw_data = load(fn);
     rawOCT = getfield(raw_data,'rawOCT');
 
@@ -8,12 +10,12 @@ function reference_processing()
     ref_hilData = hilbert(ref_rawData);
     ref_fhilData = fft(ref_hilData);
 
-    subplot(1,6,1); plot(ref_rawData(:,:));
-    subplot(1,6,2); plot(ref_rawData(:,1));
-    subplot(1,6,3); plot(abs(ref_fftData(:,:))); ylim([0 4e6]);
-    subplot(1,6,4); plot(abs(ref_hilData(:,1)));
-    subplot(1,6,5); plot(imag(ref_hilData(:,1)));
-    subplot(1,6,6); plot(abs(ref_fhilData(:,1))); ylim([0 4e6]);
+%     subplot(1,6,1); plot(ref_rawData(:,:));
+%     subplot(1,6,2); plot(ref_rawData(:,1));
+%     subplot(1,6,3); plot(abs(ref_fftData(:,:))); ylim([0 4e6]);
+%     subplot(1,6,4); plot(abs(ref_hilData(:,1)));
+%     subplot(1,6,5); plot(imag(ref_hilData(:,1)));
+%     subplot(1,6,6); plot(abs(ref_fhilData(:,1))); ylim([0 4e6]);
 
     ref_fftData = fft(hilbert(ref_rawData));
 
@@ -47,7 +49,7 @@ function reference_processing()
 %     subplot(1,2,2); imagesc( imadjust(mat2gray(20 .* log10(...
 %         abs(ref_fftData_rescaled(1:end/2,:)))))); colormap(gray);
 
-    % phase compensation
+    % spectra shift / phase compensation
     cplxConjX = ref_fftData_rescaled .* ...
         repmat( conj(ref_fftData_rescaled(:,1)), [1 size(ref_fftData_rescaled,2)] );
 
@@ -93,6 +95,8 @@ function reference_processing()
     depthROI = [40,300]; % guessed, removed dark region (use any image before)
 
     dispCoeffs = setDispCoeffs(ref_rawData_hanWin, depthROI, maxDispOrders, coeffRange);
+    disp("Dispersion compensation coefficients are:");
+    disp(dispCoeffs);
     ref_rawData_dispComp = compDisPhase(ref_rawData_hanWin, maxDispOrders, dispCoeffs);
     ref_fftData_dispComp = fft(ref_rawData_dispComp);
 
