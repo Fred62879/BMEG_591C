@@ -53,7 +53,7 @@ function reference_processing()
     cplxConjX = ref_fftData_rescaled .* ...
         repmat( conj(ref_fftData_rescaled(:,1)), [1 size(ref_fftData_rescaled,2)] );
 
-%     plot(abs(cplxConjX(:,1:10))); xlim([ 10 100]) % find optimal depthIdx
+    % plot(abs(cplxConjX(:,1:10))); xlim([ 10 100]) % find optimal depthIdx
     depthIdx = 34;
 
     ref_fftData_1D = ref_fftData_rescaled(:,1);
