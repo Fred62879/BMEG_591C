@@ -560,6 +560,33 @@ and then subtract this converted data from raw data
 side lope coes from envelope
 after hanning window, data has gaussian shape and no more side lope
 
+** Feb 28
+- s2
+scan same location at least twice to visualize vasulature
+
+- s4
+oct a: subtract to keep only moving tissue
+oct+octa: overlap and use diff color
+
+oct: tradeoff between resolution vs imaging depth
+
+- s6
+when using phase info (if use only amplitude, dont care about this)
+
+phase between two scan positions diff, need to cancel out
+take angle as mean estimator
+
+- s7
+scan same location two times and subtract: octa
+(if ignore bulk phase, signal will be lower
+ think about vector subtraction)
+
+- s8
+global motion correction: as in project a (minimize cross correlation
+between each slow scan with ref b scan)
+
+local motion correction: correct motion between each pair of BM scan
+
 
 ** Supplement
 *** Types of scanes
