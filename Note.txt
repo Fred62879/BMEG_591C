@@ -1,4 +1,5 @@
 ** Jan 12
+L1
 - wave
 transverse wave is what we used
 
@@ -42,15 +43,14 @@ used to accelerate convolution (flip
 
 cross correlation (register two images taken at different time)
 
-- spectrum
+- s12
+spectrum
 c = lambda * mu is constant
 large lambda gives small mu (speed)
-
 
 - fourier gaussian
 narrow gaussian to broad gaussian
 broad gaus to narrow gaus
-
 
 - s15
 
@@ -64,7 +64,6 @@ this works like      intensity on screen
 rectangular func     follow distribution like F(w)
 
 similarlay, if pinhole is gaussian, the screen also shows gaussian
-
 
 - s18
 pinhole makes incoherent light spatially coherent
@@ -91,14 +90,13 @@ skipped
 \theta1 is diameter of the smallest circle in the right image
 
 ** Jan 17
+L2
 first generation OCT, temporal domain
-
 
 - s3
 omega = 2 pi mu
 
 full wave half maximum (FWHW)
-
 
 c = lambda mu
 mu = c 1/lambda
@@ -107,7 +105,6 @@ d mu = c / lambda^2 d lambda
 => d mu = c d lambda / lambda_0^2
 
 - s4
-
 gaussian power spectrum
 temporal coherence function
 complex degree of tcf
@@ -133,18 +130,14 @@ S(omega) -----     -----------|    -->
 
 when rm is close to sm, we get interference and can thus detect
 
-
 tao_c -> coherece time (match resolution of imaging system)
-
 
 - s5
 s(omega) gaussian power omega
 alpha/beta, alpha% signal goes up way...
 
-
 phase shift: presents in crossput
 (E'_R is throughput while E_R is crossput)
-
 
 E_R(t) = ...
 E_S(t + tao) = ... (electro field of sm) (these are complex numbers)
@@ -171,8 +164,6 @@ Gamma(z) / I_0 = gamma(z)
 = cos(w_o tao) exp(-sigma_omega^2 tao^2 / 2)
 = cos(...) exp(- (2 \sqrt(2ln2) / tao_i)^2 * tao^2 / 2)
 = ...
-
-
 
 tao(t) = 2 [Z_R - Z_S] / c  ( Z_R is position of rm which change)
                             ( Z_S sample position is fixed)
@@ -205,6 +196,7 @@ take absolute
 broder spectrum, narrow gaussian -> high resolution
 
 ** Jan 19
+L3
 - s3
 E(z,t) = A cos(kz - wt)
 time domain OCT relies on wt
@@ -216,14 +208,10 @@ This determines freq of sinusoidal func
 - s4
 ss: inside spectrum exists scanning device that decompose the the spectrum
 
-
-- s5
-
 - s6
 fix ref (no distance change), detect diff in spectral domain
 
 - s7
-
 E_R/E_S electrical field
 I_det interference want to observe
 
@@ -231,8 +219,6 @@ sample arm: multiple field in side sample thus need to sum
 <>_t => detector detect signal within a time slot and average, thus no more time domain in fourier domain OCT equation
 DC doesnt contribute to inferference
 auto-correlation no reference involved
-
-- s8
 
 - s9
 before and after fourier transform
@@ -262,7 +248,7 @@ sampling property of signal causes decrease of signal strength (sensitivity)
 high freq sampling
         ^
         |
-small width pixel (narrow rectangular func) -- fourier --> wide sync function -> dynamic range of image large
+small width pixel (narrow rectangular func) -- fourier --> wide sync function -> large dynamic range of image
 
 generally need high freq sampling (dataset however is big)
 
@@ -273,9 +259,8 @@ positive side is exactly the same with negative side
 if positive side is too close to DC, it may go over DC and overlap with negative side
 
 this only happens in fourier domain not time domian
-
-- s17
 ** Jan 24
+L4
 - s6
 TD-oct: wave number (z <-> k)
 FD-oct: wavelength
@@ -319,7 +304,8 @@ to see trend of phase, we do unwrapping
 as distance between two arms increase (passlength difference), 
   freq of input fringe increase => fft output has intensity at higher freq
 
-when there are multiple spectra, fft can resolve complex freq to simple intensity and thus can resolve multiple reflector
+when there are multiple spectra, fft can resolve complex freq to simple intensity 
+  and thus can resolve multiple reflector
 
 - s18
 generally we place optics before sample arm and these will distort wave
@@ -356,13 +342,15 @@ Before s29, everything is based on uniformly sampled k (linear k)
 1st issue of k-nonlinear sampling: shape change
 
 - s30
-2st issue: fft output is not symmetric and get broader
+2dn issue: fft output is not symmetric and get broader
 
 - s32
 broadening effect caused by non-linear sampling is getting more severe at high freq
 while dispersion leads to same effects at all freqs
 
 ** Jan 26
+L4&5
+
 - s35
 phase shift between the two is pi/2
 with a shift, signal is larger
@@ -374,16 +362,11 @@ C = A + iB
 Real(C) = A, Imag(C) = B
 Abs(C) = D, Ang(C) = pi
 
-- s3
-
 - s4
 freq increase, signal away from DC
 
-
 - s5
 hilbert transform remove negative side (imaginary data) and increase amplitude of positive side.
-
-- s6
 
 - s7
 binary window fringe (calibration raw data)
@@ -433,11 +416,6 @@ given three complex number, to measure phase diff (diff between pi1 pi2...)
 we do c1 c2* (c1 times complex conjugate of c2)
 and gets a1a2 e^(i (pi1-pi2))
 
-- s15
-after compensation, 
-
-
-
 - summary
 oct interparameter:
   scanning device (FC, GS-X part)
@@ -481,6 +459,7 @@ In the final section, you should sum up the key findings from the site visit and
 References
 =======
 ** Feb 7
+L6
 - s2
 1 wavelength sweeping -> 1 depth-scan
 200kHz -> 200,000 depth-scan
@@ -510,20 +489,18 @@ end up having 768 pixels (only half)
 1536x500 is one tomograph image data
 and we have 500 frames of such image
 
-- s9
-
 - s10
 all data fit, no offset
 
 - s12
 no calibration needed, only need oct signal
 
-- s13
-
 ** Feb 9
+L6
 - summary
 estimate dispersion coefficient using reference only not using for loop
 ** Feb 14
+L6
 - s20
 cross correlation: large -> similar (small motion)
 
@@ -537,16 +514,14 @@ cross correlation: large -> similar (small motion)
 B scan along fast scan shows very bumpy image
 
 - s25 s26
-as we apply the tile correction, surface image (s26) is not smooth
+as we apply the tilt correction, surface image (s26) is not smooth
 
 ROI depth: dark region can be removed, keep only retina image, this depth is determined
-
 
 - imageJ
 tiff file
 z project (two frames)
 3D:volume viewer
-
 
 - fpn
 raw_data = real + j Imag
@@ -557,7 +532,7 @@ median(real) + j median(Imag)
 and then subtract this converted data from raw data
 
 - hanning window
-side lope coes from envelope
+side lobe coes from envelope
 after hanning window, data has gaussian shape and no more side lope
 
 ** Feb 28
@@ -587,10 +562,15 @@ between each slow scan with ref b scan)
 
 local motion correction: correct motion between each pair of BM scan
 
-
 ** Supplement
 *** Types of scanes
 In OCT many one-dimensional scans (a-scans) are performed at several depths
 to create a two-dimensional image (b-scan). Those b-scans, if acquired closely
 and rapidly, can be translated into a volumetric image (c-scan) of a retina,
 for example. 
+
+*** Direction
+Axial direction: depth
+Tansverse direction: B-Scan direction
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3370961/
+

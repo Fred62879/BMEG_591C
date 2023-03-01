@@ -1,6 +1,6 @@
 
 function rawData_rescaled = reSampling_CalSig(fftData, cal_RawData)
-    ifftData = ifft(fftData);
+    ifftData = ifft(fftData); % equivalent to apply only hilbert without fft
     rawData_real = real(ifftData);
     rawData_imag = imag(ifftData);
     rawData_rescaled = zeros(size(fftData));
