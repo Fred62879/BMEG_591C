@@ -1,5 +1,7 @@
-function ssada
+function RawData_Split = split(RawData)
+% repeat project a processing w/o hanning windowing
 
+    % split spectra window
     Fraction = 2;
     numPoints = size(RawData, 1);
     numBands = 2*Fraction - 1;

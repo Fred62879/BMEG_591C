@@ -1,14 +1,16 @@
 function reference_processing()
-    
-    fn = '/media/fred/working_drive/2022W2/bmeg591c/simulations/data/project_a/RawOCT.mat';
+   
+    %fn = '/media/fred/working_drive/2022W2/bmeg591c/simulations/data/project_a/RawOCT.mat';
+    fn = '/media/fred/working_drive/2022W2/bmeg591c/simulations/data/project_b/RawOCT_BM.mat';
     %fn = 'RawOCT.mat';
     raw_data = load(fn);
-    rawOCT = getfield(raw_data,'rawOCT');
+    %rawOCT = getfield(raw_data,'rawOCT');
+    rawOCT = getfield(raw_data,'rawOCT_BM');
 
     ref_rawData = rawOCT(:,:,250);
-    ref_fftData = fft(ref_rawData);
-    ref_hilData = hilbert(ref_rawData);
-    ref_fhilData = fft(ref_hilData);
+%     ref_fftData = fft(ref_rawData);
+%     ref_hilData = hilbert(ref_rawData);
+%     ref_fhilData = fft(ref_hilData);
 
 %     subplot(1,6,1); plot(ref_rawData(:,:));
 %     subplot(1,6,2); plot(ref_rawData(:,1));
@@ -19,8 +21,8 @@ function reference_processing()
 
     ref_fftData = fft(hilbert(ref_rawData));
 
-%     subplot(1,2,1); plot(abs(ref_fftData(1:end/2,:))); ylim([0 4e6]);
-%     subplot(1,2,2); plot(abs(ref_fftData(1:end/2,1))); ylim([0 4e6]);
+    subplot(1,2,1); plot(abs(ref_fftData(1:end/2,:))); ylim([0 4e6]);
+    subplot(1,2,2); plot(abs(ref_fftData(1:end/2,1))); ylim([0 4e6]);
 %     subplot(1,2,1); imagesc( imadjust(mat2gray(abs(ref_fftData(1:end/2,:))))); colormap(gray);
 %     subplot(1,2,2); imagesc( imadjust(mat2gray(20 .* log10(...
 %         abs(ref_fftData(1:end/2,:)))))); colormap(gray);
@@ -53,7 +55,7 @@ function reference_processing()
     cplxConjX = ref_fftData_rescaled .* ...
         repmat( conj(ref_fftData_rescaled(:,1)), [1 size(ref_fftData_rescaled,2)] );
 
-    % plot(abs(cplxConjX(:,1:10))); xlim([ 10 100]) % find optimal depthIdx
+    plot(abs(cplxConjX(:,1:10))); xlim([ 10 100]) % find optimal depthIdx
     depthIdx = 34;
 
     ref_fftData_1D = ref_fftData_rescaled(:,1);
