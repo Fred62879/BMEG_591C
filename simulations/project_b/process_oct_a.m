@@ -1,4 +1,4 @@
-function [Var, Sub, Dec] = process_oct_a(BM, cplxOCT_mcorr_local)
+function [avgOCT, Var, Sub, Dec] = process_oct_a(BM, cplxOCT_mcorr_local)
 % 1536x500x1000->1536x500x500
 
     numFrames = size(cplxOCT_mcorr_local,3)

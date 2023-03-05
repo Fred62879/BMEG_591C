@@ -1,6 +1,6 @@
-function volume_processing(rawOCT, num_splits, depthIdx, depthROI, maxDispOrders)
+function procd_data = volume_processing(rawOCT, num_splits, depthIdx, depthROI, maxDispOrders, load)
     % process data in batches
-    num_frames = size(rawOCT, 3);
+    num_frames = 10 %size(rawOCT, 3);
     lo = 1;
     hi = num_frames;
     bsz = 400;
@@ -8,6 +8,18 @@ function volume_processing(rawOCT, num_splits, depthIdx, depthROI, maxDispOrders
         depthROI(2) - depthROI(1) + 1,...
         size(rawOCT,2),...
         num_frames*(num_splits + 1));
+
+    if load
+        batches = round(num_frames*(num_splits+1) / bsz);
+        for i=0:batches-1
+            lo = i*bsz + 1;
+            hi = min(lo + bsz - 1, num_frames*(num_splits+1));
+            fname = append('../data/project_b/procd_', int2str(i+1), '.mat');
+            batch_data = load(fname);
+            procd_data(:,:,lo:hi) = getfield(batch_data,'batch_data');
+        end
+        return
+    end
 
     for frame_num = lo:hi
         raw_data = rawOCT(:,:,frame_num);
@@ -64,38 +76,30 @@ function volume_processing(rawOCT, num_splits, depthIdx, depthROI, maxDispOrders
         end
     end
 
-    %
-    for i = 1:size(procd_data,3)
-        imagesc( imadjust(mat2gray(20 .* log10( ...
-            abs(procd_data(:,:,i)))))); colormap(gray);
-        pause(0.01);
-    end
+    % visualize sequence
+%     for i = 1:4:num_frames*(num_splits+1) %size(procd_data,3)
+%         imagesc( imadjust(mat2gray(20 .* log10( ...
+%             abs(procd_data(:,:,i)))))); colormap(gray);
+%         pause(0.001);
+%     end
 
-    % load and validate
-    loaded_procd_data = zeros(...
-        depthROI(2) - depthROI(1) + 1,...
-        size(rawOCT,2),...
-        num_frames*(num_splits + 1));
-
-    batches = round(num_frames*(num_splits+1) / bsz);
-    for i=0:batches-1
-        lo = i*bsz + 1;
-        hi = min(lo + bsz - 1, num_frames*(num_splits+1));
-        fname = append('../data/project_b/procd_', int2str(i+1), '.mat');
-        batch_data = load(fname);
-        loaded_procd_data(:,:,lo:hi) = getfield(batch_data,'batch_data');
-    end
-
-    for i=1:num_splits+1
-        subplot(1,num_splits+1,i); imagesc( imadjust(mat2gray(20 .* log10(...
-            abs(loaded_procd_data(:,:,i+36)))))); colormap(gray);
-    end
-    subplot(1,4,1); imagesc( imadjust(mat2gray(20 .* log10(...
-         abs(loaded_procd_data(:,:,1)))))); colormap(gray);
-    subplot(1,4,2); imagesc( imadjust(mat2gray(20 .* log10(...
-         abs(loaded_procd_data(:,:,49)))))); colormap(gray);
-    subplot(1,4,3); imagesc( imadjust(mat2gray(20 .* log10(...
-         abs(loaded_procd_data(:,:,97)))))); colormap(gray);
-    subplot(1,4,4); imagesc( imadjust(mat2gray(20 .* log10(...
-         abs(loaded_procd_data(:,:,117)))))); colormap(gray);
+    % load validate
+%     for i = 1:4:4000 %size(procd_data,3)
+%         imagesc( imadjust(mat2gray(20 .* log10( ...
+%             abs(loaded_procd_data(:,:,i)))))); colormap(gray);
+%         pause(0.001);
+%     end
+% 
+%     for i=1:num_splits+1
+%         subplot(1,num_splits+1,i); imagesc( imadjust(mat2gray(20 .* log10(...
+%             abs(loaded_procd_data(:,:,i+36)))))); colormap(gray);
+%     end
+%     subplot(1,4,1); imagesc( imadjust(mat2gray(20 .* log10(...
+%          abs(loaded_procd_data(:,:,1)))))); colormap(gray);
+%     subplot(1,4,2); imagesc( imadjust(mat2gray(20 .* log10(...
+%          abs(loaded_procd_data(:,:,49)))))); colormap(gray);
+%     subplot(1,4,3); imagesc( imadjust(mat2gray(20 .* log10(...
+%          abs(loaded_procd_data(:,:,97)))))); colormap(gray);
+%     subplot(1,4,4); imagesc( imadjust(mat2gray(20 .* log10(...
+%          abs(loaded_procd_data(:,:,117)))))); colormap(gray);
 end
