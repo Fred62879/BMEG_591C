@@ -50,10 +50,11 @@ function [depthIdx, depthROI, winFunc, ref_fftData_1D, dispCoeffs, ref_fftData_d
     ref_rawData_hanWin_split = split(ref_rawData_hanWin);
 
     % visualize fringe data and image of splitted signal
-    %subplot(1,num_splits+1,1); plot(real(ref_rawData_hanWin));
-    %for i=1:num_splits
-    %    subplot(1,num_splits+1,i+1); plot(real(ref_rawData_hanWin_split(:,:,i)));
-    %end
+    subplot(1,num_splits+1,1); plot(real(ref_rawData_hanWin));title('full spectrum OCT fringe data')
+    for i=1:num_splits
+       subplot(1,num_splits+1,i+1); plot(real(ref_rawData_hanWin_split(:,:,i))); ylim([-5000 5000]); ...
+           title(strcat('split spectrum OCT fringe data - ', int2str(i)))
+    end
 
     %subplot(1,num_splits+1,1); imagesc( imadjust(mat2gray(20 .* log10(...
     %     abs(ref_fftData_hanWin(1:end/2,:)))))); colormap(gray);
