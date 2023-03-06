@@ -1,6 +1,6 @@
-function procd_data = volume_processing(rawOCT, num_splits, depthIdx, depthROI, maxDispOrders, load)
+function procd_data = volume_processing(rawOCT, num_splits, depthIdx, depthROI, maxDispOrders, load_cache)
     % process data in batches
-    num_frames = 10 %size(rawOCT, 3);
+    num_frames = size(rawOCT, 3);
     lo = 1;
     hi = num_frames;
     bsz = 400;
@@ -9,7 +9,7 @@ function procd_data = volume_processing(rawOCT, num_splits, depthIdx, depthROI, 
         size(rawOCT,2),...
         num_frames*(num_splits + 1));
 
-    if load
+    if load_cache
         batches = round(num_frames*(num_splits+1) / bsz);
         for i=0:batches-1
             lo = i*bsz + 1;

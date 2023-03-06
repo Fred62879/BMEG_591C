@@ -12,10 +12,11 @@ function Dec_ssada = decorrelate_ssada(repBScans, num_frames, num_splits, cplx_O
                %disp(id2);
                Bscan_1 = cplx_OCT_mcorr_local_split(:,:,id1);
                Bscan_2 = cplx_OCT_mcorr_local_split(:,:,id2);
-               cur_decorr = 1 - ((abs(Bscan_1).*abs(Bscan_2))...
+               cur_decorr = ((abs(Bscan_1).*abs(Bscan_2))...
                           ./((abs(Bscan_1).^2 + abs(Bscan_2).^2)./2));
                decorr_sum = decorr_sum + cur_decorr;
            end
        end
+       Dec_ssada(:,:,i) = 1 - decorr_sum / ((repBScans-1)*num_splits);
     end
 end

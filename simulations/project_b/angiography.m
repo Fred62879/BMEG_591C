@@ -1,30 +1,10 @@
 
 function angiography
 
-    % load procd data
-    bsz = 100;
-    num_frames = 1000;
-    batches = num_frames/bsz;
-    loaded_procd_data = zeros(260,500,num_frames);
-    for i=0:batches-1
-        lo = i*bsz + 1;
-        hi = min(lo + bsz - 1, num_frames);
-        fname = append('../data/project_b/procd_', int2str(i+1), '.mat');
-        batch_data = load(fname);
-        loaded_procd_data(:,:,lo:hi) = getfield(batch_data,'batch_data');
-    end
-
-    % visualize
     usfac = 1;
     num_frames = 500;
     repBScans = 2;
-    procd_OCT_BM_ROI = loaded_procd_data; % no motion or tilt correction
-
-    for i = 1:30 %size(procd_OCT_BM_ROI,3)
-        imagesc( imadjust(mat2gray(20 .* log10( ...
-            abs(loaded_procd_data(:,:,i)))))); colormap(gray);
-        pause(0.01);
-    end
+    num_splits = 3;
 
     % load raw data
     % fn = '/media/fred/working_drive/2022W2/bmeg591c/simulations/data/project_b/RawOCT_BM.mat';
@@ -35,7 +15,6 @@ function angiography
 
     % process reference data (and split)dispCoeffs
     dispCoeffs = -1;
-    num_splits = 3;
     [depthIdx, depthROI, winFunc, ref_fftData_1D, dispCoeffs, ref_procd_Full, ref_procd_splits] = ...
         reference_processing(ref_RawData_Full, dispCoeffs, num_splits);
 
@@ -48,8 +27,9 @@ function angiography
     end
 
     % volume processing
-    load = true;
-    procd_data = volume_processing(rawOCT, num_splits, depthIdx, depthROI, maxDispOrders, load);
+    load_cache = true;
+    maxDispOrders = size(dispCoeffs)+1;
+    procd_data = volume_processing(rawOCT, num_splits, depthIdx, depthROI, maxDispOrders, load_cache);
     procd_OCT_BM_ROI = procd_data(:,:,1:4:end);
 
     % local motion (axial and lateral) correction
@@ -103,19 +83,29 @@ function angiography
     avgOCTA_dec = mov2DAvg(OCTA_Dec, [2,2]);
 
     % global motion correction
-    avgOCT_mcorr = volume_correction(avgOCT_log, -1, true);
-    varOCT_mcorr = volume_correction(avgOCTA_var, -1, false);
-    subOCT_mcorr = volume_correction(avgOCTA_sub, -1, false);
-    decOCT_mcorr = volume_correction(avgOCTA_dec, -1, false);
-    decOCT_mcorr_ssada(:,:,I) = volume_correction(avgOCTA_Dec_ssada(:,:,I), -1, false);
+    usfac = 1;
+    avgOCT_corr = volume_correction(usfac, avgOCT_log, -1, true);
+    varOCT_corr = volume_correction(usfac, avgOCTA_var, -1, true);
+    subOCT_corr = volume_correction(usfac, avgOCTA_sub, -1, false);
+    decOCT_corr = volume_correction(usfac, avgOCTA_dec, -1, false);
+    decOCT_corr_ssada(:,:,I) = volume_correction(OCTA_Dec_ssada(:,:,I), -1, false);
 
     % save locally as tiff
-    scaled = imadjust(mat2gray(20 .* log10(abs(squeeze(procd_OCT_ROI_tcorr(1,:,:))))));
-    imwrite(scaled,"../data/procd_OCT_ROI_tcorr.tiff");
+    scaled = imadjust(mat2gray(20 .* log10(abs(squeeze(varOCT_corr(1,:,:))))));
+    imwrite(scaled,"../data/project_b/procd_OCT_corr_var.tiff");
 
-    for i = 2:size(procd_OCT_ROI_tcorr,1)
-        scaled = imadjust(mat2gray(20 .* log10(abs(squeeze(procd_OCT_ROI_tcorr(i,:,:))))));
-        imwrite(scaled,"../data/procd_OCT_ROI_tcorr.tiff","WriteMode","append")
+    for i = 2:size(varOCT_corr,1)
+        scaled = imadjust(mat2gray(20 .* log10(abs(squeeze(varOCT_corr(i,:,:))))));
+        imwrite(scaled,"../data/project_b/procd_OCT_corr_var.tiff","WriteMode","append")
     end
 
+    % en face image
+    frames = [50 60 70 80 90 100 110 120 160 200 250];
+    frames = 70:2:80;
+    n = size(frames,2);
+    for i=1:n
+        frame = frames(1,i);
+        subplot(1,n,i); imagesc( imadjust(mat2gray(20 .* log10( ...
+            abs(squeeze(avgOCTA_sub(frame,:,:))))))) ; colormap(gray); title('en face'); axis xy;
+    end
 end
