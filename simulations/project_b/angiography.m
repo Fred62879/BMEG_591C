@@ -19,12 +19,12 @@ function angiography
         reference_processing(ref_RawData_Full, dispCoeffs, num_splits);
 
     % visualize
-    subplot(1,num_splits+1,1); imagesc( imadjust(mat2gray(20 .* log10(...
-         abs(ref_procd_Full(:,:)))))); colormap(gray); title('full spectrum')
-    for i=1:num_splits
-        subplot(1,num_splits+1,i+1); imagesc( imadjust(mat2gray(20 .* log10(...
-            abs(ref_procd_splits(:,:,i) ))))); colormap(gray); title(strcat('spectrum', int2str(i)));
-    end
+%     subplot(1,num_splits+1,1); imagesc( imadjust(mat2gray(20 .* log10(...
+%          abs(ref_procd_Full(:,:)))))); colormap(gray); title('full spectrum')
+%     for i=1:num_splits
+%         subplot(1,num_splits+1,i+1); imagesc( imadjust(mat2gray(20 .* log10(...
+%             abs(ref_procd_splits(:,:,i) ))))); colormap(gray); title(strcat('spectrum', int2str(i)));
+%     end
 
     % volume processing
     load_cache = true;

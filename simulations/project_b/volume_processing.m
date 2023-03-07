@@ -56,7 +56,7 @@ function procd_data = volume_processing(rawOCT, num_splits, depthIdx, depthROI, 
         id_full = (frame_num - 1)*(num_splits+1) + 1;
         procd_data(:,:,id_full) = fftData_dispComp(depthROI(1):depthROI(2),:);
 
-        % split raw data and disp comp and collect
+        % split raw data and perform disp comp and collect
         rawData_hanWin_split = split(rawData_hanWin);
         for i=1:num_splits
             cur = fft(compDisPhase(rawData_hanWin_split(:,:,i), maxDispOrders, dispCoeffs));
