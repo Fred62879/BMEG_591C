@@ -562,6 +562,39 @@ between each slow scan with ref b scan)
 
 local motion correction: correct motion between each pair of BM scan
 
+** Mar 9
+- birefringence
+properties of tissue
+bf tissue causes phase delay only for s or p polarization
+
+- s5
+bs is where light from sample and reference arm meets
+
+- s6
+p polarization is light track
+s polarization is the other that goes thru dove prism
+
+here we are separating p and s polarization with different travel distance
+
+- s7
+end up with four image at pds
+
+- s9
+er: some p polarization mixed with s polarization
+
+- s10
+p polarization mixed in s polarization will interfere with major p polarization
+therefore, generate calibration signal
+
+we move one DP further away to move this calibration signal to center between
+the two images
+
+- s11
+bright line in middle of each image(column) is calibration signal
+
+- s12
+
+
 ** Supplement
 *** Types of scanes
 In OCT many one-dimensional scans (a-scans) are performed at several depths
