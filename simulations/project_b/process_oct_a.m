@@ -9,7 +9,7 @@ function [avgOCT, Var, Sub, Dec] = process_oct_a(BM, cplxOCT_mcorr_local)
         BulkOff = repmat(angle(sum(Xconj,1)), [size(Xconj,1) 1]);
 
         Bscan_1 = cplxOCT_mcorr_local(:,:,I);
-        Bscan_2 = cplxOCT_mcorr_local(:,:,I+1);
+        Bscan_2 = cplxOCT_mcorr_local(:,:,I+1) .* exp(-1j*BulkOff);
 
         % average oct
         avgOCT(:,:,K) = (Bscan_1+Bscan_2)./2;
