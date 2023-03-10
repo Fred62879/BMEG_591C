@@ -42,6 +42,13 @@ function angiography
 %     end
     disp("loaded volume")
 
+    % double check split data
+%     offset = 9;
+%     subplot(1,num_splits+1,1); plot(real(ifft(procd_data(:,:,offset))));
+%     subplot(1,num_splits+1,2); plot(real(ifft(procd_data(:,:,offset+1))));
+%     subplot(1,num_splits+1,3); plot(real(ifft(procd_data(:,:,offset+2))));
+%     subplot(1,num_splits+1,4); plot(real(ifft(procd_data(:,:,offset+3))));
+
     % local motion (axial and lateral) correction
     % use procd_data_full (higher resolution) to estimate shift amount
     [xShift_local, yShift_local, cplxOCT_mcorr_local] = local_motion_correction(...
@@ -64,11 +71,19 @@ function angiography
         cplx_OCT_mcorr_local_split(:,:,(i-1)*n+1:i*n) = cur_mcorr_local;
     end
 
+%     subplot(2,3,1); plot(real(ifft(cplx_OCT_mcorr_local_split(:,:,292))));
+%     subplot(2,3,2); plot(real(ifft(cplx_OCT_mcorr_local_split(:,:,1292))));
+%     subplot(2,3,3); plot(real(ifft(cplx_OCT_mcorr_local_split(:,:,2292))));
+%     subplot(2,3,4); plot(real(ifft(cplx_OCT_mcorr_local_split(:,:,792))));
+%     subplot(2,3,5); plot(real(ifft(cplx_OCT_mcorr_local_split(:,:,1792))));
+%     subplot(2,3,6); plot(real(ifft(cplx_OCT_mcorr_local_split(:,:,2792))));
+
     % for i = 1:n
     %     imagesc( imadjust(mat2gray(20 .* log10( ...
     %         abs(cplx_OCT_mcorr_local_split(:,:,i)))))); colormap(gray);
     %     pause(0.001);
     % end
+
 
     % octa (mean, var, sub, decorr)
     % bulk phase offset (do it for full but no need for ssada)
@@ -78,7 +93,7 @@ function angiography
 
     for i = 1:num_frames
         %imagesc( imadjust(mat2gray(20 .* log10(abs(Sub(:,:,i)))))); colormap(gray);
-        imagesc( imadjust(mat2gray(abs(Dec(:,:,i))))); colormap(gray);
+        imagesc( imadjust(mat2gray(abs(Dec_ssada(:,:,i))))); colormap(gray);
         pause(0.001);
     end
 
@@ -95,6 +110,7 @@ function angiography
     avgOCTA_var = mov2DAvg(OCTA_Var, [2,2]);
     avgOCTA_sub = mov2DAvg(OCTA_Sub, [2,2]);
     avgOCTA_dec = mov2DAvg(OCTA_Dec, [2,2]);
+    avgOCTA_dec_ssada = mov2DAvg(OCTA_Dec_ssada, [2,2]);
 
     % figs = subplot(1,3,1);imagesc( imadjust(mat2gray(abs(avgOCTA_sub(:,:,1))))); colormap(gray);
     % figs = subplot(1,3,2);imagesc( imadjust(mat2gray(abs(avgOCTA_var(:,:,1))))); colormap(gray);
@@ -112,9 +128,11 @@ function angiography
     [~, ~, varOCT_corr] = volume_correction(usfac, avgOCTA_var, global_mshift, global_tshift, false, false);
     [~, ~, subOCT_corr] = volume_correction(usfac, avgOCTA_sub, global_mshift, global_tshift, false, false);
     [~, ~, decOCT_corr] = volume_correction(usfac, avgOCTA_dec, global_mshift, global_tshift, false, false);
-    [~, ~, decOCT_corr_ssada] = volume_correction(usfac, OCTA_Dec_ssada, global_mshift, global_tshift, false, false);
+    %[~, ~, decOCT_corr_ssada] = volume_correction(usfac, OCTA_Dec_ssada, global_mshift, global_tshift, false, false);
+    [~, ~, decOCT_corr_ssada] = volume_correction(usfac, avgOCTA_dec_ssada, global_mshift, global_tshift, false, false);
 
     % save locally as tiff
+    save_tiff(avgOCT_corr, "../data/project_b/avgOCT_corr.tiff");
     save_tiff(varOCT_corr, "../data/project_b/procd_OCT_corr_var.tiff");
     save_tiff(subOCT_corr, "../data/project_b/procd_OCT_corr_sub.tiff");
     save_tiff(decOCT_corr, "../data/project_b/procd_OCT_corr_dec.tiff");
